@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <math.h>
 #include <sys/time.h>
 
 /* The various sorting algorithm names */
@@ -23,6 +23,10 @@ static const char *system_quick_sort_str = "system_quick";
 /* Number of bits in an unsigned long. */
 static const unsigned long ulong_bits = 8 * sizeof(unsigned long);
 
+static unsigned int do_radix_sort(unsigned long ary[], unsigned long n, unsigned long nbits);
+static unsigned int do_counting_sort(unsigned long ary[], unsigned long n, unsigned long nbits);
+
+
 /************************************************************
  * Functions that you must implement
  ************************************************************/
@@ -32,9 +36,16 @@ static const unsigned long ulong_bits = 8 * sizeof(unsigned long);
  * Return 0 on success and 1 on failure.
 */
 static unsigned int do_radix_sort(unsigned long ary[],
-				  unsigned long n, unsigned long nbits)
-{
-    exit(EXIT_FAILURE);
+				  unsigned long n, unsigned long nbits){
+	if( nbits > 64 ) {
+		return 1;
+//		exit(EXIT_FAILURE);
+	}
+
+
+
+
+	return 0;
 }
 
 
@@ -45,10 +56,30 @@ static unsigned int do_radix_sort(unsigned long ary[],
 static unsigned int do_counting_sort(unsigned long ary[],
 				     unsigned long n, unsigned long nbits)
 {
-    if (nbits > 20)
-        exit(EXIT_FAILURE);
+    if (nbits > 20) {
+		exit(EXIT_FAILURE);
+	}
 
-    exit(EXIT_FAILURE);
+	int arr_size = pow( 2, nbits );
+
+	int * mSorted = malloc( arr_size * sizeof(int) );
+
+	for( int i = 0; i < arr_size; i++ )
+		mSorted[i] = 0;
+
+	for( int i = 0; i < n; i++ )
+		mSorted[ary[i]]++;
+
+	int counter = 0;
+	for( int i = 0; i < arr_size; i ++ ){
+		for( int j = 0; j < mSorted[i]; j++){
+			ary[counter] = i;
+			counter++;
+		}
+
+	}
+
+	return 0;
 }
 
 
